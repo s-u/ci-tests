@@ -1,0 +1,7 @@
+Package: citest
+Title: Does Nothing
+Version: 1.0
+Author: Simon Urbanek <simon.urbanek@R-project.org>
+Maintainer: Simon Urbanek <simon.urbanek@R-project.org>
+Description: It really does nothing
+License: GPL-2
