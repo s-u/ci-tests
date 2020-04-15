@@ -70,6 +70,7 @@ fi
 
 if [ "$ACTION" = deps ]; then
     fold_start pkg.deps "Installing package dependencies ..."
+    tar=`cat ~/PACKAGE`
     set -x
     mkdir -p src/contrib
     cp -p $tar src/contrib/
