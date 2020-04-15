@@ -34,7 +34,7 @@ if [ "$ACTION" = R ]; then
      cd zi4
      unzip -q ../inconsolata.tds.zip
      sudo chown -Rh 0:0 .
-     sudo rsync -a ./ /usr/local/texlive/texmf-local/
+     sudo rsync -a ./ /usr/local/texlive/2019basic/texmf-dist/
      sudo rm -rf /tmp/zi4
     )
     sudo -i /Library/TeX/texbin/texhash
