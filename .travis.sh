@@ -16,16 +16,20 @@ fold_end() {
 
 SRC="`pwd`"
 
+PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
+export PATH
+
 if [ "$ACTION" = R ]; then
     fold_start inst.R 'Install system libraries and R'
     cd /tmp
+    set -x
     echo ' - download TeX'
-    curl -sSLO https://mac.R-project.org/misc/mactex-basictex-20191011.pkg
+    curl -LO https://mac.R-project.org/misc/mactex-basictex-20191011.pkg
     echo ' - install TeX'
     sudo installer -pkg mactex-basictex-20191011.pkg -target /
     rm mactex-basictex-20191011.pkg
     echo ' - download R'
-    curl -sSLO https://mac.R-project.org/high-sierra/R-4.0-branch/R-4.0-branch.pkg
+    curl -LO https://mac.R-project.org/high-sierra/R-4.0-branch/R-4.0-branch.pkg
     echo ' - install R'
     sudo installer -pkg R-4.0-branch.pkg -target /
     rm R-4.0-branch.pkg 
@@ -35,6 +39,7 @@ if [ "$ACTION" = R ]; then
 	echo " - install $pkg"
 	curl -sSLO https://mac.R-project.org/libs-4/${pkg}-darwin.17-x86_64.tar.gz | sudo tar fxz - -C /
     done
+    set +x
     fold_end int.R
 fi
 
@@ -58,6 +63,19 @@ if [ "$ACTION" = check ]; then
     fold_start pkg.check "Checking package ..."
     cd $HOME
     tar=`cat ~/PACKAGE`
+    set -x
     R CMD check --as-cran $tar
+    set +x
     fold_end pkg.check
+fi
+
+if [ "$ACTION" = binary ]; then
+    fold_start pkg.binary "Creating binary ..."
+    cd $HOME
+    tar=`cat ~/PACKAGE`
+    set -x
+    R CMD INSTALL --build $tar
+    set +x
+    ls -l *.tgz
+    fold_end pkg.binary
 fi

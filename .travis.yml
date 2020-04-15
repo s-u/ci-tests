@@ -8,3 +8,4 @@ install:
 script:
  - ./.travis.sh build
  - ./.travis.sh check
+ - ./.travis.sh binary
