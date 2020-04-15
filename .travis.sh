@@ -34,7 +34,7 @@ if [ "$ACTION" = R ]; then
      cd zi4
      unzip -q ../inconsolata.tds.zip
      sudo chown -Rh 0:0 .
-     sudo rsync -a ./ /Library/TeX/Local/
+     sudo rsync -a ./ /usr/local/texlive/texmf-local/
      sudo rm -rf /tmp/zi4
     )
     echo ' - download R'
