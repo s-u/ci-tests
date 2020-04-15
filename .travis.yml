@@ -7,5 +7,6 @@ install:
  - ./.travis.sh R
 script:
  - ./.travis.sh build
+ - ./.travis.sh deps
  - ./.travis.sh check
  - ./.travis.sh binary

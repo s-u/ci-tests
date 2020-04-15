@@ -28,6 +28,15 @@ if [ "$ACTION" = R ]; then
     echo ' - install TeX'
     sudo installer -pkg mactex-basictex-20191011.pkg -target /
     rm mactex-basictex-20191011.pkg
+    (cd /tmp
+     curl -LO http://mirrors.ctan.org/install/fonts/inconsolata.tds.zip
+     mkdir zi4
+     cd zi4
+     unzip -q ../inconsolata.tds.zip
+     sudo chown -Rh 0:0 .
+     sudo rsync -a ./ /Library/TeX/Local/
+     sudo rm -rf /tmp/zi4
+    )
     echo ' - download R'
     curl -LO https://mac.R-project.org/high-sierra/R-4.0-branch/R-4.0-branch.pkg
     echo ' - install R'
@@ -57,6 +66,15 @@ if [ "$ACTION" = build ]; then
 	exit 1
     fi
     fold_end pkg.build
+fi
+
+if [ "$ACTION" = deps ]; then
+    fold_start pkg.deps "Installing package dependencies ..."
+    set -x
+    mkdir -p src/contrib
+    cp -p $tar src/contrib/
+    Rscript -e "pkg=rownames(available.packages(repos='file:///$HOME',type='source')); install.packages(pkg, repos=c('https://cloud.R-project.org','file:///$HOME'), dependencies=c('Depends','Imports','LinkingTo','Enhances'))"
+    fold_end pkg.deps
 fi
 
 if [ "$ACTION" = check ]; then
