@@ -37,6 +37,8 @@ if [ "$ACTION" = R ]; then
      sudo rsync -a ./ /usr/local/texlive/texmf-local/
      sudo rm -rf /tmp/zi4
     )
+    sudo -i /Library/TeX/texbin/texhash
+    sudo -i /Library/TeX/texbin/updmap-sys --enable Map=zi4.map
     echo ' - download R'
     curl -LO https://mac.R-project.org/high-sierra/R-4.0-branch/R-4.0-branch.pkg
     echo ' - install R'
