@@ -1,8 +1,10 @@
-language: r
-sudo: false
+language: minimal
 matrix:
   include:
   - os: osx
-    osx_image: xcode9.2
-  - os: osx
     osx_image: xcode10.1
+install:
+ - ./.travis.sh R
+script:
+ - ./.travis.sh build
+ - ./.travis.sh check
