@@ -28,6 +28,8 @@ if [ "$ACTION" = R ]; then
     echo ' - install TeX'
     sudo installer -pkg mactex-basictex-20191011.pkg -target /
     rm mactex-basictex-20191011.pkg
+    sudo -i /Library/TeX/texbin/tlmgr install collection-latexrecommended collection-fontsrecommended
+    echo ' - install inconsolata from CTAN'
     (cd /tmp
      curl -LO http://mirrors.ctan.org/install/fonts/inconsolata.tds.zip
      mkdir zi4
@@ -39,11 +41,13 @@ if [ "$ACTION" = R ]; then
     )
     sudo -i /Library/TeX/texbin/texhash
     sudo -i /Library/TeX/texbin/updmap-sys --enable Map=zi4.map
+
     echo ' - download R'
     curl -LO https://mac.R-project.org/high-sierra/R-4.0-branch/R-4.0-branch.pkg
     echo ' - install R'
     sudo installer -pkg R-4.0-branch.pkg -target /
     rm R-4.0-branch.pkg 
+
     echo ' - install libraries'
     ## for the test just few basic ones used by  Ritself
     for pkg in pkgconfig-0.28 xz-5.2.4; do #cairo-1.14.12 fontconfig-2.13.1 freetype-2.10.0 jpeg-9 pcre2-10.34 readline-5.2.14; do
@@ -72,6 +76,7 @@ fi
 
 if [ "$ACTION" = deps ]; then
     fold_start pkg.deps "Installing package dependencies ..."
+    cd $HOME
     tar=`cat ~/PACKAGE`
     set -x
     mkdir -p src/contrib
